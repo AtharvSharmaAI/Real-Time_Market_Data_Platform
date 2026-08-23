@@ -1,0 +1,19 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- Anomalies table schema.
+--
+-- RESPONSIBILITIES:
+-- Document anomaly table design.
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Define schema.
+--
+-- DO NOT IMPLEMENT YET.

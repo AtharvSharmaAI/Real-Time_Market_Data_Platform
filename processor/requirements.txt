@@ -1,0 +1,6 @@
+# Eventually expected categories:
+# - confluent-kafka
+# - pydantic
+# - numpy
+# - prometheus-client
+# - pytest

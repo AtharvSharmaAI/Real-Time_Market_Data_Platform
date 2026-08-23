@@ -1,0 +1,19 @@
+// OWNER: P3
+//
+// PURPOSE:
+// Kafka Connect ClickHouse sink configuration skeleton.
+//
+// RESPONSIBILITIES:
+// Sink config.
+//
+// DEPENDENCIES:
+// None
+//
+// INTERFACES:
+// INPUT: None
+// OUTPUT: None
+//
+// IMPLEMENTATION TODO:
+// 1. Define sink config.
+//
+// DO NOT IMPLEMENT YET.

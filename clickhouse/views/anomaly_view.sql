@@ -1,0 +1,19 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- Anomaly view.
+--
+-- RESPONSIBILITIES:
+-- Document intended anomaly view.
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Define view.
+--
+-- DO NOT IMPLEMENT YET.

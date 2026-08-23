@@ -1,0 +1,19 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- DLQ events table schema.
+--
+-- RESPONSIBILITIES:
+-- Document DLQ table design.
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Define schema.
+--
+-- DO NOT IMPLEMENT YET.

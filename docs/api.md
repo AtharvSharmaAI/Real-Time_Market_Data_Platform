@@ -1,0 +1,1 @@
+Document API endpoints and response contracts.

@@ -1,0 +1,1 @@
+Document component responsibilities and data flow.

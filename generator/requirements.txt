@@ -1,0 +1,5 @@
+# Dependencies eventually needed for:
+# - data generation
+# - Pydantic/schema handling
+# - Kafka publishing if generator publishes directly
+# - configuration

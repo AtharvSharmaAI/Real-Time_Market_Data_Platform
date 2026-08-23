@@ -1,0 +1,19 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- Initialization script for ClickHouse.
+--
+-- RESPONSIBILITIES:
+-- Init DB.
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Init script.
+--
+-- DO NOT IMPLEMENT YET.

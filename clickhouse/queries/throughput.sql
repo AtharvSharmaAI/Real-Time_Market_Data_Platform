@@ -1,0 +1,19 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- Throughput analytical query.
+--
+-- RESPONSIBILITIES:
+-- Explain the analytical query that will eventually be implemented.
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Write query.
+--
+-- DO NOT IMPLEMENT YET.

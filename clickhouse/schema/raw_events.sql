@@ -1,0 +1,19 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- Raw events table schema.
+--
+-- RESPONSIBILITIES:
+-- Document intended schema.
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Define schema.
+--
+-- DO NOT IMPLEMENT YET.

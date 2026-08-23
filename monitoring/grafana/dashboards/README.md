@@ -1,0 +1,5 @@
+- panel name
+- data source
+- query
+- unit
+- alert threshold

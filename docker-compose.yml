@@ -1,0 +1,15 @@
+# OWNER: SHARED
+# PURPOSE:
+# STRUCTURAL skeleton for Docker Compose.
+#
+# DO NOT IMPLEMENT YET.
+#
+# Services that will eventually exist:
+# - Kafka: Message broker
+# - ClickHouse: Analytical database
+# - Processor: Custom stream processor
+# - FastAPI: Backend API
+# - Prometheus: Metrics collection
+# - Grafana: Dashboards
+# - Frontend: Web UI
+# - Kafka Connect: Sink to ClickHouse (if required)

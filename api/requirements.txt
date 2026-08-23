@@ -1,0 +1,6 @@
+# Eventually expected:
+# - fastapi
+# - uvicorn
+# - clickhouse-connect
+# - pydantic
+# - pytest

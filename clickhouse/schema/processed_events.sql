@@ -1,0 +1,29 @@
+-- OWNER: P3
+--
+-- PURPOSE:
+-- Processed events table schema.
+--
+-- RESPONSIBILITIES:
+-- Document:
+-- event/window time
+-- symbol
+-- window_start
+-- window_end
+-- vwap
+-- volume
+-- volatility
+-- anomaly_flag
+-- anomaly_type
+-- anomaly_score
+--
+-- DEPENDENCIES:
+-- None
+--
+-- INTERFACES:
+-- INPUT: None
+-- OUTPUT: None
+--
+-- IMPLEMENTATION TODO:
+-- 1. Define schema.
+--
+-- DO NOT IMPLEMENT YET.

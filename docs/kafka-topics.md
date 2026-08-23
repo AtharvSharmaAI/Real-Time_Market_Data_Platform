@@ -1,0 +1,1 @@
+Document topic ownership and event flow.

@@ -1,0 +1,17 @@
+# OWNER: P4
+# PURPOSE:
+# Prometheus configuration skeleton.
+#
+# RESPONSIBILITIES:
+# Metrics to eventually expose:
+# events_received_total
+# events_processed_total
+# events_invalid_total
+# events_duplicate_total
+# events_late_total
+# dlq_events_total
+# anomalies_detected_total
+# processing_latency_seconds
+# window_completion_latency_seconds
+#
+# DO NOT IMPLEMENT YET.

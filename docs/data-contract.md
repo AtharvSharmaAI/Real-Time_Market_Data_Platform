@@ -1,0 +1,1 @@
+Document exact event schema and validation rules.
