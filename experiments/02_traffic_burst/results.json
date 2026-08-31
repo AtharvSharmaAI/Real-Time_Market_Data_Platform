@@ -1,1 +1,14 @@
-{}
+{
+  "experiment": "traffic_burst",
+  "parameters": {
+    "baseline_rate": 100,
+    "burst_multiplier": 5,
+    "burst_duration_sec": 10
+  },
+  "metrics": {
+    "mode": "simulation",
+    "peak_rate": 500,
+    "max_consumer_lag": 3500,
+    "recovery_time_sec": 70.0
+  }
+}

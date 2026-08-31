@@ -1,25 +1,19 @@
 # OWNER: P2
 #
 # PURPOSE:
-# Rules for anomaly detection.
+# Anomaly detection rules.
 #
 # RESPONSIBILITIES:
-# Explain configurable rules:
-# - price anomaly
-# - volume anomaly
-# - volatility anomaly
-# - trade-rate anomaly
-# Initial rule: abs(z) > 3
-# Do not implement ML initially.
-#
-# DEPENDENCIES:
-# None
-#
-# INTERFACES:
-# INPUT: Metrics
-# OUTPUT: Rule Result
-#
-# IMPLEMENTATION TODO:
-# 1. Implement rules.
-#
-# DO NOT IMPLEMENT YET.
+# - Trigger anomalies based on thresholds (Z-score, hard bounds)
+
+from typing import Tuple
+
+def evaluate_zscore_anomaly(val: float, mean: float, std_dev: float, threshold: float = 3.0) -> Tuple[bool, float]:
+    """
+    Check if a value constitutes an anomaly based on running Z-score.
+    """
+    if std_dev == 0.0:
+        return False, 0.0
+        
+    z_score = abs(val - mean) / std_dev
+    return z_score > threshold, round(z_score, 2)

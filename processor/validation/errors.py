@@ -1,24 +1,23 @@
 # OWNER: P2
 #
 # PURPOSE:
-# Error categories for DLQ.
+# Define validation errors.
 #
 # RESPONSIBILITIES:
-# Define the error categories that will eventually be used by DLQ.
-# Examples:
-# MISSING_FIELD
-# INVALID_TYPE
-# INVALID_VALUE
-# INVALID_SCHEMA_VERSION
-#
-# DEPENDENCIES:
-# None
-#
-# INTERFACES:
-# INPUT: None
-# OUTPUT: Error Enum/Classes
-#
-# IMPLEMENTATION TODO:
-# 1. Define error categories.
-#
-# DO NOT IMPLEMENT YET.
+# Error types for validation failures.
+
+class ValidationError(Exception):
+    """Base exception for validation errors."""
+    pass
+
+class MissingFieldException(ValidationError):
+    """Exception raised when a required field is missing."""
+    pass
+
+class InvalidTypeException(ValidationError):
+    """Exception raised when a field has an incorrect type."""
+    pass
+
+class DomainConstraintException(ValidationError):
+    """Exception raised when a value violates domain constraints (e.g., price <= 0)."""
+    pass

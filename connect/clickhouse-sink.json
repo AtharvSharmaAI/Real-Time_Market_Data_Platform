@@ -1,19 +1,26 @@
-// OWNER: P3
-//
-// PURPOSE:
-// Kafka Connect ClickHouse sink configuration skeleton.
-//
-// RESPONSIBILITIES:
-// Sink config.
-//
-// DEPENDENCIES:
-// None
-//
-// INTERFACES:
-// INPUT: None
-// OUTPUT: None
-//
-// IMPLEMENTATION TODO:
-// 1. Define sink config.
-//
-// DO NOT IMPLEMENT YET.
+{
+  "name": "clickhouse-sink-connector",
+  "config": {
+    "connector.class": "com.clickhouse.kafka.connect.ClickHouseSinkConnector",
+    "tasks.max": "2",
+    "topics": "market-trades,processed-events",
+    "clickhouse.host": "clickhouse",
+    "clickhouse.port": "8123",
+    "clickhouse.user": "default",
+    "clickhouse.password": "",
+    "clickhouse.database": "market_data",
+    "ssl": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "key.converter.schemas.enable": "false",
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "dlq-events",
+    "errors.deadletterqueue.topic.replication.factor": "1",
+    "errors.deadletterqueue.context.headers.enable": "true",
+    "clickhouse.sink.batch.size": "1000",
+    "clickhouse.sink.max.retries": "5",
+    "clickhouse.sink.retry.backoff.ms": "5000",
+    "clickhouse.sink.delivery.semantics": "at_least_once"
+  }
+}

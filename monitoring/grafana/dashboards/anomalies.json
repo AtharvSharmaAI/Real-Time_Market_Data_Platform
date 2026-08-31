@@ -1,19 +1,69 @@
-// OWNER: P4
-//
-// PURPOSE:
-// Anomalies dashboard placeholder.
-//
-// RESPONSIBILITIES:
-// Dashboard.
-//
-// DEPENDENCIES:
-// None
-//
-// INTERFACES:
-// INPUT: None
-// OUTPUT: None
-//
-// IMPLEMENTATION TODO:
-// 1. Implement dashboard.
-//
-// DO NOT IMPLEMENT YET.
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Anomaly Ingestion Rate",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(anomalies_detected_total[1m])",
+          "legendFormat": "Anomalies / sec",
+          "range": true,
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "title": "Malformed Data Rate (DLQ Routing)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(dlq_events_total[1m])",
+          "legendFormat": "DLQ events / sec",
+          "range": true,
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": ["anomalies", "market-data"],
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Real-Time Anomaly & DLQ Detection Dashboard",
+  "version": 1
+}

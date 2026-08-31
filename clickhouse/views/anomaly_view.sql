@@ -15,5 +15,17 @@
 --
 -- IMPLEMENTATION TODO:
 -- 1. Define view.
---
--- DO NOT IMPLEMENT YET.
+
+CREATE VIEW IF NOT EXISTS anomaly_view AS
+SELECT
+    symbol,
+    window_start,
+    window_end,
+    vwap,
+    volume,
+    volatility,
+    anomaly_type,
+    anomaly_score,
+    processed_time
+FROM processed_events
+WHERE anomaly_flag = 1;

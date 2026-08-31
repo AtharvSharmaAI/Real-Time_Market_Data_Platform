@@ -1,1 +1,17 @@
-{}
+{
+  "experiment": "late_events",
+  "parameters": {
+    "lateness_min_sec": 8,
+    "lateness_max_sec": 10,
+    "late_ratio": 0.15,
+    "duration_sec": 20
+  },
+  "metrics": {
+    "mode": "simulation",
+    "total_events_processed": 2000,
+    "late_events_detected": 300,
+    "accepted_late_events": 0,
+    "dropped_late_events": 300,
+    "watermark_threshold_sec": 3.0
+  }
+}

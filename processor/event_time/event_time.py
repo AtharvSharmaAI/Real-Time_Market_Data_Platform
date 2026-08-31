@@ -1,22 +1,33 @@
 # OWNER: P2
 #
 # PURPOSE:
-# Handle event time tracking.
+# Event time parsing helper.
 #
 # RESPONSIBILITIES:
-# event_time != arrival_time
-# processing must use event_time
-# maintain maximum event_time observed
-# route events into event-time windows
-#
-# DEPENDENCIES:
-# None
-#
-# INTERFACES:
-# INPUT: Event
-# OUTPUT: Event with Event Time
-#
-# IMPLEMENTATION TODO:
-# 1. Implement event time tracking logic.
-#
-# DO NOT IMPLEMENT YET.
+# Extract event time from payload and parse to datetime.
+
+from datetime import datetime
+from typing import Union
+
+def parse_event_time(event_time_input: Union[str, datetime]) -> datetime:
+    """
+    Standardize the event time into a datetime object.
+    Supports ISO formats.
+    """
+    if isinstance(event_time_input, datetime):
+        return event_time_input
+    if isinstance(event_time_input, str):
+        # Handle Zulu suffix and standard formatting
+        iso_str = event_time_input.replace("Z", "+00:00")
+        try:
+            return datetime.fromisoformat(iso_str)
+        except ValueError:
+            # Fallback for millisecond/microsecond variations
+            for fmt in ("%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S"):
+                try:
+                    return datetime.strptime(event_time_input, fmt)
+                except ValueError:
+                    continue
+            raise ValueError(f"Unable to parse event_time: {event_time_input}")
+            
+    raise TypeError(f"Invalid type for event_time: {type(event_time_input)}")

@@ -1,1 +1,47 @@
-# Alerts skeleton
+groups:
+  - name: market-data-alerts
+    rules:
+      - alert: HighInvalidEventsRate
+        expr: rate(events_invalid_total[1m]) > 10
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High invalid events rate detected"
+          description: "Processor has encountered >10 invalid/corrupt events per second over the last minute."
+
+      - alert: HighLateEventsRate
+        expr: rate(events_late_total[1m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate of late events dropped"
+          description: "Processor has dropped >5 late events per second because they fell behind the watermark."
+
+      - alert: HighProcessingLatency
+        expr: histogram_quantile(0.99, sum(rate(processing_latency_seconds_bucket[5m])) by (le)) > 0.5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "P99 processing latency is high"
+          description: "P99 latency of event processing is greater than 500ms."
+
+      - alert: DLQEventsSpike
+        expr: rate(dlq_events_total[1m]) > 1
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "DLQ events spike detected"
+          description: "Messages are failing validation/schema checks and are being routed to DLQ."
+
+      - alert: HighAnomalyRate
+        expr: rate(anomalies_detected_total[5m]) > 2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate of market anomalies detected"
+          description: "Processor detected more than 2 price/volume/volatility anomalies per minute."

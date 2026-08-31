@@ -1,23 +1,22 @@
 # OWNER: P2
 #
 # PURPOSE:
-# Handle late events.
+# Late event categorization and handling.
 #
 # RESPONSIBILITIES:
-# calculate lateness
-# classify late events
-# accepted late events
-# dropped late events
-# metrics required
-#
-# DEPENDENCIES:
-# None
-#
-# INTERFACES:
-# INPUT: Event
-# OUTPUT: Late Event Status
-#
-# IMPLEMENTATION TODO:
-# 1. Implement late event handling logic.
-#
-# DO NOT IMPLEMENT YET.
+# - Detect late events based on watermark
+# - Categorize late events (dropped vs accepted)
+
+from datetime import datetime
+from processor.event_time.watermark import WatermarkTracker
+
+class LateEventHandler:
+    def __init__(self, tracker: WatermarkTracker):
+        self.tracker = tracker
+
+    def is_late(self, event_time: datetime) -> bool:
+        """
+        Check if an event_time is behind the current watermark.
+        """
+        watermark = self.tracker.get_watermark()
+        return event_time < watermark

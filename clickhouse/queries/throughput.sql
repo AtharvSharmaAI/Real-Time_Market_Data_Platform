@@ -15,5 +15,13 @@
 --
 -- IMPLEMENTATION TODO:
 -- 1. Write query.
---
--- DO NOT IMPLEMENT YET.
+
+SELECT
+    toStartOfInterval(ingest_time, INTERVAL 1 MINUTE) AS interval_time,
+    count() AS events_count,
+    count() / 60.0 AS events_per_second,
+    sum(volume) AS total_volume
+FROM raw_events
+WHERE ingest_time >= {start_time:DateTime64}
+GROUP BY interval_time
+ORDER BY interval_time DESC;

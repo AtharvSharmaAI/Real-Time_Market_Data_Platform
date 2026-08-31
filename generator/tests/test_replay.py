@@ -2,20 +2,14 @@
 #
 # PURPOSE:
 # Test replay functionality.
-#
-# RESPONSIBILITIES:
-# Test deterministic replay.
-# Test rate limiting.
-# Test fault injection hooks.
-#
-# DEPENDENCIES:
-# None
-#
-# INTERFACES:
-# INPUT: None
-# OUTPUT: None
-#
-# IMPLEMENTATION TODO:
-# 1. Write tests for replay.
-#
-# DO NOT IMPLEMENT YET.
+
+import pytest
+from generator.src.replay import EventReplayer
+
+def test_dynamic_generation_fallback():
+    # If no file is provided, it should fall back to generating simulated events
+    replayer = EventReplayer(sample_file="nonexistent_file.json", speed=100.0)
+    events = list(replayer.replay(rate_per_second=1000))
+    # Check that events are generated successfully
+    assert len(events) > 0
+    assert "event_id" in events[0]

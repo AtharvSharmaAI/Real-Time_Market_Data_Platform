@@ -2,26 +2,16 @@
 #
 # PURPOSE:
 # Define the canonical event schema.
-#
-# RESPONSIBILITIES:
-# Define required event fields:
-# event_id
-# event_time
-# symbol
-# price
-# volume
-# exchange
-# side
-# schema_version
-#
-# DEPENDENCIES:
-# Pydantic
-#
-# INTERFACES:
-# INPUT: None
-# OUTPUT: Event schemas
-#
-# IMPLEMENTATION TODO:
-# 1. Define Pydantic models for the schema.
-#
-# DO NOT IMPLEMENT YET.
+
+from pydantic import BaseModel, Field
+from datetime import datetime
+
+class MarketTradeEvent(BaseModel):
+    event_id: str
+    event_time: datetime
+    symbol: str
+    price: float
+    volume: float
+    exchange: str
+    side: str
+    schema_version: str = "1.0.0"

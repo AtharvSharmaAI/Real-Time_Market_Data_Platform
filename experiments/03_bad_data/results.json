@@ -1,1 +1,17 @@
-{}
+{
+  "experiment": "bad_data",
+  "parameters": {
+    "malformed_ratio": 0.1,
+    "duplicate_ratio": 0.05,
+    "duration_sec": 15
+  },
+  "metrics": {
+    "mode": "simulation",
+    "total_events_injected": 1500,
+    "malformed_events_injected": 150,
+    "duplicate_events_injected": 75,
+    "routed_to_dlq": 150,
+    "deduplicated_count": 75,
+    "data_corruption_leak": 0
+  }
+}

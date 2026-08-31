@@ -15,5 +15,15 @@
 --
 -- IMPLEMENTATION TODO:
 -- 1. Write query.
---
--- DO NOT IMPLEMENT YET.
+
+SELECT
+    symbol,
+    anomaly_type,
+    count() AS anomaly_count,
+    avg(anomaly_score) AS average_score,
+    max(anomaly_score) AS peak_score
+FROM processed_events
+WHERE anomaly_flag = 1
+  AND window_start >= {start_time:DateTime64}
+GROUP BY symbol, anomaly_type
+ORDER BY anomaly_count DESC;

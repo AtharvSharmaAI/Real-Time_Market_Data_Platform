@@ -1,1 +1,14 @@
-{}
+{
+  "experiment": "processor_kill",
+  "parameters": {
+    "service_name": "processor",
+    "kill_duration_sec": 15
+  },
+  "metrics": {
+    "mode": "simulation",
+    "lag_growth": 1500,
+    "recovery_time_sec": 30.0,
+    "data_loss_detected": false,
+    "data_loss_count": 0
+  }
+}

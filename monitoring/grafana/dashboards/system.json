@@ -1,19 +1,69 @@
-// OWNER: P4
-//
-// PURPOSE:
-// System dashboard placeholder.
-//
-// RESPONSIBILITIES:
-// Dashboard.
-//
-// DEPENDENCIES:
-// None
-//
-// INTERFACES:
-// INPUT: None
-// OUTPUT: None
-//
-// IMPLEMENTATION TODO:
-// 1. Implement dashboard.
-//
-// DO NOT IMPLEMENT YET.
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 3,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Processor Container Memory Usage",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "process_resident_memory_bytes{job=\"market-data-processor\"}",
+          "legendFormat": "Memory Bytes",
+          "range": true,
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "title": "Processor CPU Usage (User + System)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(process_cpu_seconds_total{job=\"market-data-processor\"}[1m])",
+          "legendFormat": "CPU Seconds / sec",
+          "range": true,
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": ["system", "market-data"],
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "System Resource Health Dashboard",
+  "version": 1
+}

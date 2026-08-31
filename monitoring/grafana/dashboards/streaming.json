@@ -1,19 +1,107 @@
-// OWNER: P4
-//
-// PURPOSE:
-// Streaming dashboard placeholder.
-//
-// RESPONSIBILITIES:
-// Dashboard.
-//
-// DEPENDENCIES:
-// None
-//
-// INTERFACES:
-// INPUT: None
-// OUTPUT: None
-//
-// IMPLEMENTATION TODO:
-// 1. Implement dashboard.
-//
-// DO NOT IMPLEMENT YET.
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Throughput (Events Processed vs Received)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(events_received_total[1m])",
+          "legendFormat": "Received",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(events_processed_total[1m])",
+          "legendFormat": "Processed",
+          "range": true,
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "title": "Data Loss & Duplicates (Late vs Duplicate Events)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(events_late_total[1m])",
+          "legendFormat": "Late / Dropped",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "rate(events_duplicate_total[1m])",
+          "legendFormat": "Duplicate",
+          "range": true,
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "title": "P99 Ingestion Processing Latency",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.99, sum(rate(processing_latency_seconds_bucket[5m])) by (le))",
+          "legendFormat": "P99 Latency (seconds)",
+          "range": true,
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": ["streaming", "market-data"],
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Real-Time Streaming Pipeline Metrics",
+  "version": 1
+}

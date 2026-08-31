@@ -2,19 +2,22 @@
 #
 # PURPOSE:
 # Inject traffic bursts.
-#
-# RESPONSIBILITIES:
-# temporarily increase event rate
-# support 5x burst experiment
-#
-# DEPENDENCIES:
-# generator rate limiting
-#
-# INTERFACES:
-# INPUT: None
-# OUTPUT: None
-#
-# IMPLEMENTATION TODO:
-# 1. Implement burst logic.
-#
-# DO NOT IMPLEMENT YET.
+
+class TrafficBurstController:
+    def __init__(self, multiplier: int = 5):
+        self.multiplier = multiplier
+        self.active = False
+
+    def activate(self):
+        self.active = True
+
+    def deactivate(self):
+        self.active = False
+
+    def get_current_rate(self, baseline_rate: int) -> int:
+        """
+        Calculate target event rate.
+        """
+        if self.active:
+            return baseline_rate * self.multiplier
+        return baseline_rate

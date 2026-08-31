@@ -1,5 +1,32 @@
 # OWNER: P4
 # PURPOSE:
 # Chaos experiment parameters.
-#
-# DO NOT IMPLEMENT YET.
+
+# Global settings
+prometheus_url: "http://localhost:9090"
+clickhouse_url: "http://localhost:8123"
+api_url: "http://localhost:8000"
+
+# Experiment configurations
+processor_kill:
+  service_name: "processor"
+  kill_duration_sec: 15
+  check_interval_sec: 2
+  max_recovery_sec: 30
+
+traffic_burst:
+  baseline_rate: 100 # events per second
+  burst_multiplier: 5
+  burst_duration_sec: 10
+  recovery_check_sec: 20
+
+bad_data:
+  malformed_ratio: 0.1
+  duplicate_ratio: 0.05
+  duration_sec: 15
+
+late_events:
+  lateness_min_sec: 8
+  lateness_max_sec: 10
+  late_ratio: 0.15
+  duration_sec: 20
