@@ -25,7 +25,8 @@ if [[ "$*" == *"--local"* ]] || [[ "$FORCE_SIMULATION" == "true" ]]; then
     USE_DOCKER=false
 fi
 
-if [ "$USE_DOCKER" = "true" ] && docker info >/dev/null 2>&1; then
+# compose file is still a skeleton; only use Docker once it defines services
+if [ "$USE_DOCKER" = "true" ] && docker info >/dev/null 2>&1 && docker compose config --services 2>/dev/null | grep -q .; then
     echo "Docker detected. Starting containers..."
     docker compose up -d
     echo "Docker containers started successfully."

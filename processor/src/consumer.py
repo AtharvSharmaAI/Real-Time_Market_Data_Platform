@@ -39,21 +39,25 @@ class KafkaTradeConsumer:
         """
         if self.consumer:
             # Poll from real Kafka
-            try:
-                msg = self.consumer.poll(1.0)
-                if msg is not None and not msg.error():
-                    val = json.loads(msg.value().decode("utf-8"))
-                    yield val
-            except Exception as e:
-                logger.error(f"Error polling Kafka: {e}")
+            received = 0
+            while received < limit:
+                try:
+                    msg = self.consumer.poll(1.0)
+                    if msg is not None and not msg.error():
+                        received += 1
+                        yield json.loads(msg.value().decode("utf-8"))
+                except Exception as e:
+                    logger.error(f"Error polling Kafka: {e}")
         else:
             # Generate simulated stream
             import random
+            import time
+            import uuid
             from datetime import datetime, timezone
             symbols = ["AAPL", "GOOGL", "MSFT", "AMZN"]
             for _ in range(limit):
                 yield {
-                    "event_id": f"evt-{random.randint(100000, 999999)}",
+                    "event_id": f"evt-{uuid.uuid4().hex[:12]}",
                     "event_time": datetime.now(timezone.utc).isoformat(),
                     "symbol": random.choice(symbols),
                     "price": round(150.0 + random.uniform(-10.0, 10.0), 2),
@@ -62,6 +66,7 @@ class KafkaTradeConsumer:
                     "side": random.choice(["BUY", "SELL"]),
                     "schema_version": "1.0.0"
                 }
+                time.sleep(0.01)  # ~100 events/s, like the generator default; unthrottled pins a CPU
 
     def commit(self):
         """

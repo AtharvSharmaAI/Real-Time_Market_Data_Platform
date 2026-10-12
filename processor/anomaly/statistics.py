@@ -9,6 +9,8 @@
 import math
 from typing import Dict, List
 
+MIN_SAMPLES = 5
+
 class MetricStatsTracker:
     def __init__(self, window_limit: int = 50):
         self.limit = window_limit
@@ -27,7 +29,7 @@ class MetricStatsTracker:
         Return (mean, std_dev) for a symbol.
         """
         vals = self.history.get(symbol, [])
-        if len(vals) < 2:
+        if len(vals) < MIN_SAMPLES:  # z-score on fewer points is noise
             return 0.0, 0.0
             
         mean = sum(vals) / len(vals)

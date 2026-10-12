@@ -67,6 +67,10 @@ app.include_router(trades_router, prefix="/trades", tags=["Trades"])
 app.include_router(vwap_router, prefix="/vwap", tags=["VWAP"])
 app.include_router(anomalies_router, prefix="/anomalies", tags=["Anomalies"])
 
+# Prometheus scrape endpoint (job "market-data-api" in monitoring/prometheus/prometheus.yml)
+from prometheus_client import make_asgi_app
+app.mount("/metrics", make_asgi_app())
+
 @app.get("/")
 async def root():
     return {

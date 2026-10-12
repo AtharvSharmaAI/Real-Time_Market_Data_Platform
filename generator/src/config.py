@@ -12,6 +12,8 @@ class GeneratorConfig:
         self.seed = os.getenv("GENERATOR_SEED")
         if self.seed is not None:
             self.seed = int(self.seed)
+        self.bootstrap_servers = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+        self.input_topic = os.getenv("KAFKA_INPUT_TOPIC", "market-trades")
         self.replay_speed = float(os.getenv("GENERATOR_REPLAY_SPEED", "1.0"))
         
         # Fault probabilities

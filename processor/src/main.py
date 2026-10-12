@@ -18,6 +18,7 @@
 
 import json
 import logging
+import os
 import time
 from datetime import datetime
 from typing import Dict, Any, List
@@ -36,6 +37,17 @@ from processor.analytics.volume import calculate_total_volume
 from processor.analytics.volatility import calculate_volatility
 from processor.anomaly.detector import AnomalyDetector
 from processor.dlq.dlq_producer import DLQProducer
+from prometheus_client import Counter, Histogram, start_http_server
+
+# Metric names match monitoring/grafana/dashboards/*.json and monitoring/alerts/alerts.yml
+EVENTS_RECEIVED = Counter("events_received", "Raw events consumed")
+EVENTS_PROCESSED = Counter("events_processed", "Events assigned to a window")
+EVENTS_INVALID = Counter("events_invalid", "Events failing validation")
+EVENTS_DUPLICATE = Counter("events_duplicate", "Duplicate events dropped")
+EVENTS_LATE = Counter("events_late", "Late events dropped")
+DLQ_EVENTS = Counter("dlq_events", "Events routed to the DLQ")
+ANOMALIES = Counter("anomalies_detected", "Windows flagged as anomalous", ["anomaly_type"])
+LATENCY = Histogram("processing_latency_seconds", "Event time to processing time")
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -75,17 +87,21 @@ class ProcessingPipeline:
         processed_count = 0
         for raw_msg in self.consumer.poll_messages(limit=limit):
             processed_count += 1
+            EVENTS_RECEIVED.inc()
             try:
                 # 1. Validation
                 try:
                     valid_trade = validate_event(raw_msg)
                 except Exception as val_err:
                     logger.warning(f"Validation failed: {val_err}. Routing to DLQ.")
+                    EVENTS_INVALID.inc()
+                    DLQ_EVENTS.inc()
                     self.dlq_producer.send_to_dlq(raw_msg, str(val_err))
                     continue
 
                 # 2. Deduplication
                 if self.deduplicator.is_duplicate(valid_trade.event_id):
+                    EVENTS_DUPLICATE.inc()
                     logger.info(f"Duplicate event detected: {valid_trade.event_id}. Dropping.")
                     continue
 
@@ -95,6 +111,7 @@ class ProcessingPipeline:
 
                 # 4. Late event handling
                 if self.late_event_handler.is_late(evt_time):
+                    EVENTS_LATE.inc()
                     logger.warning(f"Late event dropped: {valid_trade.event_id} (event_time: {evt_time}, watermark: {watermark})")
                     continue
 
@@ -108,6 +125,8 @@ class ProcessingPipeline:
                 
                 window_key = (symbol, w_start, w_end)
                 self.tracked_windows[window_key] = w_end
+                EVENTS_PROCESSED.inc()
+                LATENCY.observe(max((datetime.now(evt_time.tzinfo) - evt_time).total_seconds(), 0))
 
                 # 6. Check and Finalize Windows
                 # A window is finalized when the watermark is strictly greater than the window_end
@@ -147,6 +166,9 @@ class ProcessingPipeline:
             symbol, vwap, total_vol, volatility
         )
 
+        if anomaly_flag:
+            ANOMALIES.labels(anomaly_type).inc()
+
         output_payload = {
             "symbol": symbol,
             "window_start": start.isoformat(),
@@ -179,6 +201,7 @@ class ProcessingPipeline:
         self.window_state.purge_window(symbol, start, end)
 
 if __name__ == "__main__":
+    start_http_server(int(os.getenv("PROCESSOR_METRICS_PORT", "8001")))  # Prometheus scrape target
     pipeline = ProcessingPipeline()
     # Loop indefinitely in production/simulation running
     pipeline.run(limit=9999999)

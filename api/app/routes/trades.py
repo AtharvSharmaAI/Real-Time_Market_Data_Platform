@@ -23,6 +23,13 @@ from api.app.services.market_service import MarketService
 
 router = APIRouter()
 
+@router.get("", response_model=List[TradeResponse])
+async def get_trades_all(limit: int = Query(100, ge=1, le=1000)):
+    """
+    Same as below, across all symbols.
+    """
+    return await get_trades(symbol="", limit=limit)
+
 @router.get("/{symbol}", response_model=List[TradeResponse])
 async def get_trades(symbol: str, limit: int = Query(100, ge=1, le=1000)):
     """

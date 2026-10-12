@@ -23,6 +23,13 @@ from api.app.services.market_service import MarketService
 
 router = APIRouter()
 
+@router.get("", response_model=List[VWAPResponse])
+async def get_vwap_all(limit: int = Query(100, ge=1, le=1000)):
+    """
+    Same as below, across all symbols.
+    """
+    return await get_vwap(symbol="", limit=limit)
+
 @router.get("/{symbol}", response_model=List[VWAPResponse])
 async def get_vwap(symbol: str, limit: int = Query(100, ge=1, le=1000)):
     """

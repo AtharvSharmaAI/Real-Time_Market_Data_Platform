@@ -47,7 +47,8 @@ class AnomalyGroundTruth:
                 mean = sum(prices) / len(prices)
                 variance = sum((x - mean) ** 2 for x in prices) / len(prices)
                 std_dev = math.sqrt(variance)
-                if std_dev > 0:
+                std_dev = std_dev or 1e-6  # flat history: any deviation is a spike
+                if price != mean:
                     z_score = abs(price - mean) / std_dev
                     if z_score > threshold_factor:
                         expected_anomalies.append({
@@ -63,7 +64,8 @@ class AnomalyGroundTruth:
                 mean = sum(volumes) / len(volumes)
                 variance = sum((x - mean) ** 2 for x in volumes) / len(volumes)
                 std_dev = math.sqrt(variance)
-                if std_dev > 0:
+                std_dev = std_dev or 1e-6
+                if volume != mean:
                     z_score = abs(volume - mean) / std_dev
                     if z_score > threshold_factor:
                         expected_anomalies.append({

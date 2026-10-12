@@ -36,7 +36,7 @@ class MarketService:
         query = """
             SELECT event_id, event_time, symbol, price, volume, exchange, side, schema_version 
             FROM raw_events 
-            WHERE symbol = %(symbol)s 
+            WHERE (%(symbol)s = '' OR symbol = %(symbol)s) 
             ORDER BY event_time DESC 
             LIMIT %(limit)s
         """
@@ -65,7 +65,7 @@ class MarketService:
         query = """
             SELECT symbol, window_start, window_end, vwap, volume 
             FROM processed_events 
-            WHERE symbol = %(symbol)s 
+            WHERE (%(symbol)s = '' OR symbol = %(symbol)s) 
             ORDER BY window_end DESC 
             LIMIT %(limit)s
         """
@@ -94,7 +94,7 @@ class MarketService:
             trades.append({
                 "event_id": f"mock-evt-{random.randint(100000, 999999)}",
                 "event_time": now - timedelta(seconds=i * 2),
-                "symbol": symbol.upper(),
+                "symbol": (symbol or "AAPL").upper(),
                 "price": round(base_price + random.uniform(-1.0, 1.0), 2),
                 "volume": float(random.randint(10, 500)),
                 "exchange": random.choice(["NYSE", "NASDAQ", "BATS"]),
@@ -113,7 +113,7 @@ class MarketService:
             window_end = now_rounded - timedelta(seconds=i * 5)
             window_start = window_end - timedelta(seconds=5)
             vwaps.append({
-                "symbol": symbol.upper(),
+                "symbol": (symbol or "AAPL").upper(),
                 "window_start": window_start,
                 "window_end": window_end,
                 "vwap": round(base_price + random.uniform(-0.5, 0.5), 2),

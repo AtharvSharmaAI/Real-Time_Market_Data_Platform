@@ -112,8 +112,8 @@ if __name__ == "__main__":
             else:
                 print(json.dumps(event))
             
-            # Control rate based on baseline_rate configuration
-            sleep_time = 1.0 / float(gen.config.baseline_rate) if gen.config.baseline_rate else 0.05
+            # Control rate based on event_rate configuration
+            sleep_time = 1.0 / float(gen.config.event_rate) if gen.config.event_rate else 0.05
             time.sleep(sleep_time)
             
         if producer:
