@@ -43,7 +43,7 @@ class DLQProducer:
                     key=payload.get("event_id", "unknown"),
                     value=json.dumps(dlq_event)
                 )
-                self.producer.flush()
+                self.producer.flush(5)
                 logger.info(f"Sent event to Kafka DLQ: {payload.get('event_id')}")
                 return
             except Exception as e:

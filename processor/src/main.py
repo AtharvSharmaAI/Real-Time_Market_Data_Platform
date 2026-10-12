@@ -42,9 +42,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger("processor.main")
 
 class ProcessingPipeline:
-    def __init__(self):
+    def __init__(self, consumer=None, on_trade=None, on_window=None):
         self.config = settings
-        self.consumer = KafkaTradeConsumer()
+        self.consumer = consumer or KafkaTradeConsumer()
+        # Optional sinks used when running without Kafka (see main.py at repo root)
+        self.on_trade = on_trade
+        self.on_window = on_window
         self.deduplicator = Deduplicator(ttl_seconds=self.config.dedup_ttl_sec)
         self.watermark_tracker = WatermarkTracker(delay_seconds=self.config.watermark_delay_sec)
         self.late_event_handler = LateEventHandler(self.watermark_tracker)
@@ -88,6 +91,9 @@ class ProcessingPipeline:
                 if self.deduplicator.is_duplicate(valid_trade.event_id):
                     logger.info(f"Duplicate event detected: {valid_trade.event_id}. Dropping.")
                     continue
+
+                if self.on_trade:
+                    self.on_trade(valid_trade.model_dump())
 
                 # 3. Event-time extraction and watermark update
                 evt_time = parse_event_time(valid_trade.event_time)
@@ -161,6 +167,8 @@ class ProcessingPipeline:
         }
 
         # Write output payload
+        if self.on_window:
+            self.on_window(output_payload)
         if self.producer:
             try:
                 self.producer.produce(
@@ -168,7 +176,7 @@ class ProcessingPipeline:
                     key=symbol,
                     value=json.dumps(output_payload)
                 )
-                self.producer.flush()
+                self.producer.flush(5)  # bounded: unbounded flush hangs forever if broker is down
                 logger.info(f"Produced finalized window to Kafka: {symbol} [{start} - {end}]")
             except Exception as e:
                 logger.error(f"Failed to produce window result to Kafka: {e}")
